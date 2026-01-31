@@ -25,4 +25,6 @@ public class ControlledPiece {
 
     @OneToMany(mappedBy = "controlledPiece", cascade = CascadeType.ALL)
     private List<Measure> measures;
+
+    //test
 }
