@@ -1,6 +1,6 @@
-package db;
+package com.example.Traceability.app.db.entity;
 
-import db.enums.Role;
+import com.example.Traceability.app.db.entity.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +31,7 @@ public class Employee {
     @Column(nullable = false)
     @Size(min = 2 ,max = 25)
     private String lastName;
+
     @Email
     private String email;
 
@@ -39,5 +42,8 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Session> sessions;
 
 }

@@ -1,4 +1,4 @@
-package db.enums;
+package com.example.Traceability.app.db.entity.enums;
 
 public enum Role {
     OPERATOR,

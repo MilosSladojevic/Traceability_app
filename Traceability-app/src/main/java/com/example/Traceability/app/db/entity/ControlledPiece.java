@@ -1,4 +1,4 @@
-package db;
+package com.example.Traceability.app.db.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -26,5 +27,9 @@ public class ControlledPiece {
     @OneToMany(mappedBy = "controlledPiece", cascade = CascadeType.ALL)
     private List<Measure> measures;
 
-    //test
+    private LocalDateTime productionTime;
+
+    @ManyToOne
+    private Session session;
+
 }

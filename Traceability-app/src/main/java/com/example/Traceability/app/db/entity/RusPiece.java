@@ -1,11 +1,13 @@
-package db;
+package com.example.Traceability.app.db.entity;
 
-import db.enums.RusProblems;
+import com.example.Traceability.app.db.entity.enums.RusProblems;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,5 +28,10 @@ public class RusPiece {
     private RusProblems problem;
 
     private String comment;
+
+    private LocalDateTime productionTime;
+
+    @ManyToOne
+    private Session session;
 
 }
