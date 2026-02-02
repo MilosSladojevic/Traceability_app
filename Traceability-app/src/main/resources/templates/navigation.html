@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+    <header>
+        <div class="upper-margin">
+            <nav >
+                <ul class="top-nav">
+                    <li>
+                        <a class="nav-link h5 my-text-color" sec:authorize="isAuthenticated()">Welcome, <span th:text="${#authentication.name}">Guest</span></a>
+                    </li>
+
+                    <li>
+                    <a href=""><i class="fa-sharp-duotone fa-solid fa-house"></i></a>
+                    </li>
+
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<body>
+
+    <div class="btn-container">
+        <form action="/measuring/daily" method="get">
+            <button>Measuring</button>
+
+        </form>
+        <form action="" >
+            <button>View previous season</button>
+
+        </form>
+    </div>
+    
+</body>
+</html>

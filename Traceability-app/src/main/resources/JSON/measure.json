@@ -1,0 +1,89 @@
+[
+  {
+    "type":"Diameter",
+    "nominal": 30.00,
+    "minTolerance": 0,
+    "maxTolerance": 0.016,
+    "references": ["1010505","1010640"]
+  },
+  {
+    "type":"Diameter",
+    "nominal": 14.00,
+    "minTolerance": 0,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010640"]
+  },
+  {
+    "type":"Height",
+    "nominal": 36.23,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010640"]
+  },
+  {
+    "type":"Height",
+    "nominal": 46.69,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Height",
+    "nominal": 38.15,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Diameter",
+    "nominal": 18.00,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Height",
+    "nominal": 36.15,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Height",
+    "nominal": 3.03,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Height",
+    "nominal": 42.15,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Diameter",
+    "nominal": 44.15,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Diameter",
+    "nominal": 120.015,
+    "minTolerance": -0.05,
+    "maxTolerance": 0.05,
+    "references": ["1010505","1010507"]
+  },
+  {
+    "type":"Diameter",
+    "nominal": 12.016,
+    "minTolerance": -0.004,
+    "maxTolerance": 0.004,
+    "references": ["1010505","1010507"]
+  }
+
+
+
+]

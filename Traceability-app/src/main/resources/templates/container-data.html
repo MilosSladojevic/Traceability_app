@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traceability app</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<header>
+    <div class="upper-margin">
+            <nav >
+                <ul class="top-nav">
+                    <li>
+                        <a class="nav-link h5 my-text-color" sec:authorize="isAuthenticated()">Welcome, <span th:text="${#authentication.name}">Guest</span></a>
+                    </li>
+
+                    <li>
+                    <a href=""><i class="fa-sharp-duotone fa-solid fa-house"></i></a>
+                    </li>
+
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+</header>
+<body>
+
+    <form action="/measuring/box-info" method="post" th:action="@{/measuring/box-info}" th:object="${boxForm}" class="container input-box">
+        <div class="div-input">
+            <label for="inbox">Enter the inbox number</label>
+            <input id="inbox" name="inbox" type="text" minlength="9" maxlength="17">
+        </div>
+        <div class="div-input div-outbox">
+            <label for="outbox">Enter the outbox number</label>
+            <input id="outbox" name="outbox" type="text" minlength="9" maxlength="17">
+        </div>
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <button id="submitBtn" class="submit-button"  type="submit">Submit</button>
+    </form>
+
+   <script>
+        const inbox = document.getElementById("inbox");
+        const outbox = document.getElementById("outbox");
+        const submitBtn = document.getElementById("submitBtn");
+        const inputs = [inbox, outbox];
+
+        function checkInputs() {
+            submitBtn.disabled =
+                inbox.value.trim() === "" ||
+                outbox.value.trim() === "";
+        }
+
+        inputs.forEach((input, index) => {
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+
+                    const next = inputs[index + 1];
+                    if (next) {
+                        next.focus();
+                    } else if (!submitBtn.disabled) {
+                        e.target.form.submit();
+                    }
+                }
+            });
+
+<!--            input.addEventListener("input", (e) => {-->
+<!--                allowOnlyNumbers(e);-->
+<!--                checkInputs();-->
+<!--            });-->
+        });
+
+        inbox.addEventListener("input", checkInputs);
+        outbox.addEventListener("input", checkInputs);
+        
+
+        
+        checkInputs(); 
+    </script>
+    
+</body>
+</html>

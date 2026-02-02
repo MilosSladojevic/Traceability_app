@@ -35,6 +35,8 @@ public class Employee {
     @Email
     private String email;
 
+    private String password;
+
     @Column(unique = true)
     private String username;
 

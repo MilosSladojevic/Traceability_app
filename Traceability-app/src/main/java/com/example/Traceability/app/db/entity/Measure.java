@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.logging.log4j.message.Message;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,16 +21,30 @@ public class Measure {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String dimension;
+    private String type;
 
     @Column(nullable = false)
-    private String realValue;
+    private Double nominal;
+
+    @Column(nullable = false)
+    private Double minTolerance;
+
+    @Column(nullable = false)
+    private Double maxTolerance;
+
+    @Column(nullable = false)
+    private Double realValue;
 
     @ManyToOne
     private ControlledPiece controlledPiece;
 
     @ManyToOne
     private SetupPiece setupPiece;
+
+    @ManyToMany
+    @JoinTable(name = "measure_reference",
+            joinColumns = @JoinColumn(name = "measure_id"),
+            inverseJoinColumns = @JoinColumn(name = "reference_id"))
+    private List<Reference> references;
 
 }
