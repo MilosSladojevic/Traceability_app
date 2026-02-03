@@ -19,6 +19,7 @@ public class WebSecurityConfig {
             request.requestMatchers("/").permitAll();
 
             request.requestMatchers("/css/**","/static/**").permitAll();
+            request.requestMatchers("/employee/create", "/employees/**").permitAll();
             request.anyRequest().authenticated();
 
         }).formLogin(form ->{
