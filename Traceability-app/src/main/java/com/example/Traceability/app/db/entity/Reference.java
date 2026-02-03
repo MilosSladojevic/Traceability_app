@@ -28,7 +28,5 @@ public class Reference {
     @OneToMany(mappedBy = "reference")
     private List<Session> sessions;
 
-    @ManyToMany(mappedBy = "references")
 
-    private List<Measure> measures;
 }

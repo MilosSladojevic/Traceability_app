@@ -18,7 +18,7 @@
                 </li>
 
                 <li>
-                    <a href=""><i class="fa-sharp-duotone fa-solid fa-house"></i></a>
+<!--                    <a href=""><i class="fa-sharp-duotone fa-solid fa-house"></i></a>-->
                 </li>
 
                 <li>
@@ -32,6 +32,11 @@
 </header>
 
     <div class="container container-log">
+        <input type="text"
+               name="pieceNumber"
+               id="textInput"
+               autocomplete="off"
+               autofocus />
         <div>
             <h2>Pieces in session</h2>
         </div>
@@ -57,23 +62,15 @@
 
         <input type="hidden" name="sessionId" th:value="${sessionId}" />
 
-        <input type="text"
-               name="pieceNumber"
-               id="textInput"
-               autocomplete="off"
-               style=" position:fixed; top:0; left:0; width:20px; height:20px;"
-               autofocus />
+<div  id="rusModal" class="modal">
 
-
-<div id="myModal" class="modal">
-
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content modal-content-rus">
+        <span class="close" onclick="closeRusModal()">&times;</span>
 
         <h3>Enter data</h3>
 
         <form >
-            <select id="problemSelect" name="problemSelect">
+            <select id="rusProblemSelect" name="problemSelect">
                 <option value= "" disabled selected hidden>Choose a problem</option>
                 <option value="BAD_ROUGHNESS">Bad roughness</option>
                 <option value="IMPACT">Impact</option>
@@ -81,7 +78,58 @@
                 <option value="TECHNICAL_PROBLEM">Technical problem</option>
                 <option value="OTHER_PROBLEMS">Other problems</option>
             </select>
-            <textarea id="comment" name="comment" placeholder="comment" ></textarea>
+            <textarea id="rusComment" name="comment" placeholder="comment" ></textarea>
+            <button type="button" onclick="saveData()">Send</button>
+        </form>
+
+
+
+    </div>
+
+</div>
+
+<div id="setupModal"  class="modal">
+
+    <div class="modal-content  modal-content-setup">
+        <span class="close" onclick="closeRusModal()">&times;</span>
+
+        <h3>Enter data</h3>
+
+        <form >
+            <select id="setupProblemSelect" name="problemSelect">
+                <option value= "" disabled selected hidden>Choose a problem</option>
+                <option value="REGULAR_REPLACEMENT">Regular replacement</option>
+                <option value="TOOL_BROKEN">Tool broken</option>
+                <option value="PROBLEM_WITH_MEASURE">Problem with measure</option>
+
+
+            </select>
+            <textarea id="setupComment" name="comment" placeholder="comment" ></textarea>
+            <button type="button" onclick="saveData()">Send</button>
+        </form>
+
+
+
+    </div>
+
+</div>
+
+<div id="rfModal"  class="modal">
+
+    <div class="modal-content modal-content-rf">
+        <span class="close" onclick="closeRusModal()">&times;</span>
+
+        <h3>Enter data</h3>
+
+        <form >
+            <select id="rfProblemSelect" name="problemSelect">
+                <option value= "" disabled selected hidden>Choose a problem</option>
+                <option value="LACK_OF_MATERIAL">Lack of material</option>
+                <option value="EXCESS_MATERIAL">Excess material</option>
+                <option value="POROSITY">Porosity</option>
+                <option value="CRACK">Crack</option>
+            </select>
+            <textarea id="rfComment" name="comment" placeholder="comment" ></textarea>
             <button type="button" onclick="saveData()">Send</button>
         </form>
 
@@ -95,15 +143,46 @@
 
 
 <script th:inline="javascript">
-    function openModal() {
-document.getElementById("myModal").style.display = "block";
 
- document.getElementById("problemSelect").selectedIndex = 0;
-    document.getElementById("comment").value = "";
+
+    function openModal() {
+
+    let model = "";
+    let problem = "";
+    let comment = "";
+
+    if(value.startsWith("RF")){
+        model = "rfModal";
+        problem = "rfProblemSelect";
+        comment = "rfComment";
+    }else if(value.startsWith("RUS")){
+        model = "rusModal";
+        problem = "rusProblemSelect";
+        comment = "rusComment";
+    }else if(value.startsWith("KS")){
+         model = "setupModal"
+        problem = "setupProblemSelect";
+        comment = "setupComment";
+
+    }
+    document.getElementById(model).style.display = "block";
+    document.getElementById(problem).selectedIndex = 0;
+    document.getElementById(comment).value = "";
+
 }
 
 function closeModal() {
-    document.getElementById("myModal").style.display = "none";
+let model = "";
+
+    if(value.startsWith("RF")){
+        model = "rfModal";
+    }else if(value.startsWith("RUS")){
+        model = "rusModal";
+    }else if(value.startsWith("KS")){
+         model = "setupModal"
+    }
+
+    document.getElementById(model).style.display = "none";
 }
 
     const sessionId = [[${sessionId}]];
@@ -119,10 +198,40 @@ inputField.addEventListener('keypress', (e) => {
         if (!value) return;
 
         if(value.startsWith("RF")){
+            fetch('/piece/rf/qr-check', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ qrCode: value})
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.inDataBase) {
+                                inputField.value = "";
+                                alert(data.message);
+                            } else {
+                               openModal(); // kod je slobodan → otvori popup
+                            }
+                        })
+                        .catch(err => console.error(err));
 
         }else if(value.startsWith("KK")) {
 
+            fetch('/piece/add-kk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        qrCode: value,
+                        sessionId: sessionId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.saved){
+                        createDiv(value);
 
+                    }else{
+                        alert(data.message)
+                    }
+                });
         } else if (value.startsWith("RUS")){
 
               fetch('/piece/rus/qr-check', {
@@ -142,6 +251,21 @@ inputField.addEventListener('keypress', (e) => {
                 .catch(err => console.error(err));
 
         }else if (value.startsWith("KS")){
+            fetch('/piece/setup/qr-check', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ qrCode: value})
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.inDataBase) {
+                            inputField.value = "";
+                            alert(data.message);
+                        } else {
+                           openModal(); // kod je slobodan → otvori popup
+                        }
+                    })
+                    .catch(err => console.error(err));
 
         }else if(value.startsWith("RK")){
             fetch('/piece/add-ok', {
@@ -186,13 +310,32 @@ const newDiv = document.createElement('div');
 
     function saveData() {
     closeModal();
-    const problem = document.getElementById("problemSelect").value;
-    const comment = document.getElementById("comment").value;
+
+    let url = "";
+    let problemData = "";
+    let commentData = ""
+
+    if(value.startsWith("RF")){
+        url ='/piece/rf/save-data';
+        problemData = "rfProblemSelect";
+        commentData = "rfComment";
+    }else if(value.startsWith("RUS")){
+        url ='/piece/rus/save-data';
+        problemData = "rusProblemSelect";
+        commentData = "rusComment";
+    }else if(value.startsWith("KS")){
+         url ='/piece/setup/save-data';
+         problemData = "setupProblemSelect";
+        commentData = "setupComment";
+    }
+
+    const problem = document.getElementById(problemData).value;
+    const comment = document.getElementById(commentData).value;
     console.log(problem);
 
     if (!problem) return alert("Unesi dodatne podatke");
 
-    fetch('/piece/rus/save-data', {
+    fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ qrCode:value,

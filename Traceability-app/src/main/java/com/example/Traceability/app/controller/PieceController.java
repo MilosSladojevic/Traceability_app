@@ -1,10 +1,7 @@
 package com.example.Traceability.app.controller;
 
 import com.example.Traceability.app.db.dto.*;
-import com.example.Traceability.app.service.PieceService;
-import com.example.Traceability.app.service.RusPieceService;
-import com.example.Traceability.app.service.SessionService;
-import com.example.Traceability.app.service.SetupPieceService;
+import com.example.Traceability.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +16,18 @@ public class PieceController {
     private SessionService sessionService;
     private RusPieceService rusPieceService;
     private SetupPieceService setupService;
+    private RfPieceService rfPieceService;
+    private ControlledPieceService controlledPieceService;
 
 
     @Autowired
-    public PieceController(PieceService pieceService, SessionService sessionService, RusPieceService rusPieceService, SetupPieceService setupService) {
+    public PieceController(PieceService pieceService, SessionService sessionService, RusPieceService rusPieceService, SetupPieceService setupService, RfPieceService rfPieceService, ControlledPieceService controlledPieceService) {
         this.pieceService = pieceService;
         this.sessionService = sessionService;
         this.rusPieceService = rusPieceService;
         this.setupService = setupService;
+        this.rfPieceService = rfPieceService;
+        this.controlledPieceService = controlledPieceService;
     }
 
 
@@ -64,9 +65,9 @@ public class PieceController {
 
     @PostMapping("/rus/save-data")
 
-    public AddItemResponse saveRusP(@RequestBody RusDto rusDto){
+    public AddItemResponse saveRusPiece(@RequestBody BadPieceDto badPieceDto){
 
-        return rusPieceService.saveRusDTO(rusDto);
+        return rusPieceService.saveRusDTO(badPieceDto);
 //        Session session = sessionService.getSession(rusDto.getSessionId());
 //        RusProblems problem = RusProblems.valueOf(rusDto.getProblem());
 //        RusPiece rusPiece = new RusPiece();
@@ -85,6 +86,30 @@ public class PieceController {
     @PostMapping("/setup/qr-check")
     public CheckQrCodeResponse checkSetupQrCode(@RequestBody QrCodeCheckDto qrCodeCheckDto){
         return setupService.checkQrCode(qrCodeCheckDto);
+    }
+
+    @PostMapping("/setup/save-data")
+    public AddItemResponse saveSetupPiece(@RequestBody BadPieceDto badPieceDto) {
+
+        return setupService.saveSetupDTO(badPieceDto);
+    }
+
+    @PostMapping("/rf/qr-check")
+    public CheckQrCodeResponse checkRfQrCode(@RequestBody QrCodeCheckDto qrCodeCheckDto){
+        return rfPieceService.checkQrCode(qrCodeCheckDto);
+    }
+
+    @PostMapping("/rf/save-data")
+    public AddItemResponse saveRfPiece(@RequestBody BadPieceDto badPieceDto) {
+
+        return rfPieceService.saveSetupDTO(badPieceDto);
+    }
+
+    @PostMapping("/add-kk")
+    public AddItemResponse addControlledPiece(@RequestBody PieceDto pieceDto) {
+
+        return controlledPieceService.saveDto(pieceDto);
+
     }
 
 

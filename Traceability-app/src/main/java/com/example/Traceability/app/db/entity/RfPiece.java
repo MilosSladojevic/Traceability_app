@@ -28,6 +28,8 @@ public class RfPiece {
 
     private LocalDateTime productionTime;
 
+    private String comment;
+
     @ManyToOne
     private Session session;
 

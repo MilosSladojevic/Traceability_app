@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,8 +23,6 @@ public class ControlledPiece {
     @Column(unique = true)
     private String qrCode;
 
-    @OneToMany(mappedBy = "controlledPiece", cascade = CascadeType.ALL)
-    private List<Measure> measures;
 
     private LocalDateTime productionTime;
 

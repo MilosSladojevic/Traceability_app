@@ -76,7 +76,7 @@ public class SessionService {
 //    }
 
     @Transactional
-    public List<SessionViewDto> getAllForView(){
+    public List<SessionViewDto> getAllTodayForView(){
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
@@ -90,9 +90,42 @@ public class SessionService {
                        s.getControlledPieces().size(),
                        s.getSetupPieces().size(),
                        s.getRusPieces().size(),
-                       s.getRfPieces().size()
+                       s.getRfPieces().size(),
+                       s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
                )).toList();
     }
 
+    @Transactional
+    public List<SessionViewDto> getAllForView(){
 
+
+        return sessionRepository.findTop100ByOrderByIdDesc().
+                stream().map(s-> new SessionViewDto(
+                        s.getStartOfSession(),
+                        s.getEndOfSession(),
+                        s.getNoOutbox(),
+                        s.getOkPiece().size(),
+                        s.getControlledPieces().size(),
+                        s.getSetupPieces().size(),
+                        s.getRusPieces().size(),
+                        s.getRfPieces().size(),
+                        s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
+                )).toList();
+    }
+
+
+    public List<SessionViewDto> getAllWhitTicketNumber(String ticketId) {
+       return sessionRepository.findByNoOutbox(ticketId).stream().map(s-> new SessionViewDto(
+               s.getStartOfSession(),
+               s.getEndOfSession(),
+               s.getNoOutbox(),
+               s.getOkPiece().size(),
+               s.getControlledPieces().size(),
+               s.getSetupPieces().size(),
+               s.getRusPieces().size(),
+               s.getRfPieces().size(),
+               s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
+       )).toList();
+
+    }
 }

@@ -1,22 +1,30 @@
 package com.example.Traceability.app.service;
 
+import com.example.Traceability.app.db.dto.AddItemResponse;
+import com.example.Traceability.app.db.dto.BadPieceDto;
 import com.example.Traceability.app.db.dto.CheckQrCodeResponse;
 import com.example.Traceability.app.db.dto.QrCodeCheckDto;
+import com.example.Traceability.app.db.entity.Session;
 import com.example.Traceability.app.db.entity.SetupPiece;
+import com.example.Traceability.app.db.entity.enums.ReasonForToolReplacement;
 import com.example.Traceability.app.repository.SetupPieceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class SetupPieceService {
 
     private SetupPieceRepository setupPieceRepository;
+    private SessionService sessionService;
 
     @Autowired
-    public SetupPieceService(SetupPieceRepository setupPieceRepository) {
+    public SetupPieceService(SetupPieceRepository setupPieceRepository, SessionService sessionService) {
         this.setupPieceRepository = setupPieceRepository;
+        this.sessionService = sessionService;
     }
 
 
@@ -28,5 +36,21 @@ public class SetupPieceService {
             return new CheckQrCodeResponse(true,"Already in Database");
         }
         return new CheckQrCodeResponse(false,"Free to use");
+    }
+
+    @Transactional
+    public AddItemResponse saveSetupDTO(BadPieceDto badPieceDto) {
+        Session session = sessionService.getSession(badPieceDto.getSessionId());
+        session.setEndOfSession(LocalDateTime.now());
+        ReasonForToolReplacement problem = ReasonForToolReplacement.valueOf(badPieceDto.getProblem());
+        SetupPiece setupPiece = new SetupPiece();
+
+        setupPiece.setSession(session);
+        setupPiece.setQrCode(badPieceDto.getQrCode());
+        setupPiece.setProductionTime(LocalDateTime.now());
+        setupPiece.setComment(badPieceDto.getComment());
+        setupPiece.setReason(problem);
+        setupPieceRepository.save(setupPiece);
+        return new AddItemResponse(true,"Setup saved successfully");
     }
 }

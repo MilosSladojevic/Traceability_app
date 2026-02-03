@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Getter
 @Setter
@@ -27,9 +27,6 @@ public class SetupPiece {
 
     @Enumerated(EnumType.STRING)
     private ReasonForToolReplacement reason;
-
-    @OneToMany(mappedBy = "setupPiece",cascade = CascadeType.ALL)
-    private List<Measure> badMeasures;
 
     private String comment;
 

@@ -2,7 +2,7 @@ package com.example.Traceability.app.service;
 
 import com.example.Traceability.app.db.dto.AddItemResponse;
 import com.example.Traceability.app.db.dto.CheckQrCodeResponse;
-import com.example.Traceability.app.db.dto.RusDto;
+import com.example.Traceability.app.db.dto.BadPieceDto;
 import com.example.Traceability.app.db.dto.QrCodeCheckDto;
 import com.example.Traceability.app.db.entity.RusPiece;
 import com.example.Traceability.app.db.entity.Session;
@@ -29,20 +29,20 @@ public class RusPieceService {
 
 
     @Transactional
-    public AddItemResponse saveRusDTO(RusDto rusDto){
-        Session session = sessionService.getSession(rusDto.getSessionId());
+    public AddItemResponse saveRusDTO(BadPieceDto badPieceDto){
+        Session session = sessionService.getSession(badPieceDto.getSessionId());
         session.setEndOfSession(LocalDateTime.now());
-        RusProblems problem = RusProblems.valueOf(rusDto.getProblem());
+        RusProblems problem = RusProblems.valueOf(badPieceDto.getProblem());
         RusPiece rusPiece = new RusPiece();
 
         rusPiece.setSession(session);
-        rusPiece.setQrCode(rusDto.getQrCode());
+        rusPiece.setQrCode(badPieceDto.getQrCode());
         rusPiece.setProductionTime(LocalDateTime.now());
         rusPiece.setProblem(problem);
-        rusPiece.setComment(rusDto.getComment());
+        rusPiece.setComment(badPieceDto.getComment());
 
         rusRepository.save(rusPiece);
-        return new AddItemResponse(true,"Piece saved successfully");
+        return new AddItemResponse(true,"Rus saved successfully");
     }
 
     public CheckQrCodeResponse checkQrCode(QrCodeCheckDto qrCodeCheckDto){

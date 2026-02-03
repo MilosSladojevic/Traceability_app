@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session,Long> {
@@ -22,12 +23,11 @@ public interface SessionRepository extends JpaRepository<Session,Long> {
             @Param("endOfDay") LocalDateTime endOfDay
     );
 
-//    List<Session> findByStartOfSessionLessThanEqualAndEndOfSessionIsNullOrEndOfSessionGreaterThanEqual(
-//            LocalDateTime startOfDay,LocalDateTime endOfDay
-//
-//    );
-//
+    List<Session> findTop100ByOrderByIdDesc();
 
+//    @Query("SELECT s FROM Session s WHERE noOfOutbox = :ticketId")
+//    List<Session> findByNoOfOutbox(@Param("ticketId") String ticketId);
 
-//    List<Session> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+    @Query("SELECT s FROM Session s WHERE s.noOutbox = :val")
+    List<Session> findByNoOutbox(@Param("val") String val);
 }

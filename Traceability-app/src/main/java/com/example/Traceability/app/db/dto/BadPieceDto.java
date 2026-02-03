@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RusDto {
+public class BadPieceDto {
     private Long sessionId;
     private String qrCode;
     private String comment;

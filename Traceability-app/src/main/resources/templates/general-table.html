@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traceability app</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<header>
+    <div class="upper-margin">
+            <nav >
+                <ul class="top-nav">
+                    <li>
+                        <a class="nav-link h5 my-text-color" sec:authorize="isAuthenticated()">Welcome, <span th:text="${#authentication.name}">Guest</span></a>
+                    </li>
+
+                    <li id="serch">
+                        <form th:action="@{/session/general}" method="get">
+                            <input  th:value="${code}" name="code" inputmode="numeric" pattern="[0-9]*"  type="text" placeholder="Search id. tag number" style="border-radius: 0.5em; text-align: center;" onfocus="this.placeholder=''" minlength="9" maxlength="9">
+                        </form>
+                    </li>
+
+                    <li>
+                    <a href="/nav"><i class="fa-sharp-duotone fa-solid fa-house"></i></a>
+                    </li>
+
+                    <li>
+                        <form  th:action="@{/logout}" method="post">
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+</header>
+<body>
+    <div class="container table-container">
+        <label for="table" class="table-label">Today's sessions</label>
+        <table class="table">
+            <tr class="first-row">
+                <th>Produced by</th>
+                <th>Start of session</th>
+                <th>End of session</th>
+                <th>Identification tag number</th>
+                <th>OK pieces </th>
+                <th>Controlled pieces</th>
+                <th>Setup pieces</th>
+                <th>RUS pieces </th>
+                <th>RF pieces </th>
+
+            </tr>
+
+            <tr th:each="s : ${sessions}">
+                <td th:text="${s.employeeFullName}"><div>Milos Sladojevic</div></td>
+                <td>
+                    <div th:text="${#temporals.format(s.startOfSession, 'dd.MM.yyyy')}"></div>
+                    <div th:text="${#temporals.format(s.startOfSession, 'HH:mm')}"></div>
+                </td>
+
+                <td>
+                    <div th:if="${s.endOfSession != null}"
+                         th:text="${#temporals.format(s.endOfSession, 'dd.MM.yyyy')}"></div>
+                    <div    th:if="${s.endOfSession != null}"
+                            th:text="${#temporals.format(s.endOfSession, 'HH:mm')}"></div>
+                </td>
+                <td th:text="${s.noOutbox}"><div>260014670N1010505</div></td>
+                <td th:text="${s.okPiece}">66</td>
+                <td th:text="${s.controlledPieces}">4</td>
+                <td th:text="${s.setupPieces}">0</td>
+                <td th:text="${s.rusPieces}">2</td>
+                <td th:text="${s.rfPieces}">0</td>
+            </tr>
+        </table>
+
+    </div>
+    
+</body>
+</html>

@@ -18,4 +18,5 @@ public class SessionViewDto {
     private int setupPieces;
     private int rusPieces;
     private int rfPieces;
+    private String employeeFullName;
 }
