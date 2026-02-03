@@ -308,6 +308,54 @@ th,td {
     background: purple;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    margin: 10% auto;
+    padding: 20px;
+    width: 20%;
+    border-top: 20px solid red;
+    border-radius: 3%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 15em;
+    gap: 15px;
+}
+
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content select, .modal-content textarea ,.modal-content button{
+    width: 100%;
+}
+
+.modal-content textarea{
+    height: 5em;
+}
+
+.close{
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    font-size: 24px;
+    cursor: pointer;
+
+
+}
+
 
 
 

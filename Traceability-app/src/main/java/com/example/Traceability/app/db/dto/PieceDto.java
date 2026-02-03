@@ -13,5 +13,6 @@ public class PieceDto {
 
     private String qrCode;
     private LocalDateTime productionTime;
-    private PieceType pieceType;
+    private Long sessionId;
+
 }

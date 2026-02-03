@@ -59,6 +59,7 @@ public class SessionService {
    }
 
     public Session getSession(Long sessionId) {
+
        return sessionRepository.findById(sessionId).orElse(null);
     }
 

@@ -10,17 +10,13 @@ import com.example.Traceability.app.service.ReferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ReferenceSeeder implements CommandLineRunner {
+public class Seeder implements CommandLineRunner {
 
 
     private final ReferenceRepository referenceRepository;
