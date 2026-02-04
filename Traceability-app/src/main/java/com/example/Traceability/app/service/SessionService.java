@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,15 +24,19 @@ public class SessionService {
     private  SessionRepository sessionRepository;
    private ReferenceRepository referenceRepository;
    private EmployeeService employeeService;
+   private Clock clock;
 
-   @Autowired
-   public SessionService(SessionRepository sessionRepository, ReferenceRepository referenceRepository, EmployeeService employeeService) {
+
+   public SessionService(SessionRepository sessionRepository, ReferenceRepository referenceRepository, EmployeeService employeeService, Clock clock) {
        this.sessionRepository = sessionRepository;
        this.referenceRepository = referenceRepository;
        this.employeeService = employeeService;
+       this.clock = clock;
    }
 
-   public Session startSession(String inbox , String outbox){
+
+
+    public Session startSession(String inbox , String outbox){
        Session session = new Session();
        String noRef;
        if (inbox.length()>9){
@@ -48,8 +53,8 @@ public class SessionService {
        session.setNoInbox(shortInbox);
        String shortOutBox = outbox.substring(0,9);
        session.setNoOutbox(shortOutBox);
-       session.setStartOfSession(LocalDateTime.now());
-       session.setEndOfSession(LocalDateTime.now());
+       session.setStartOfSession(LocalDateTime.now(clock));
+       session.setEndOfSession(LocalDateTime.now(clock));
        session.setEmployee(employee);
        sessionRepository.save(session);
 
@@ -71,7 +76,7 @@ public class SessionService {
 
     @Transactional
     public List<SessionViewDto> getAllTodayForView(){
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(clock);
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
 

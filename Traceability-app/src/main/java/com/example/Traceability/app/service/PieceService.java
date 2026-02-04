@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -17,22 +18,24 @@ public class PieceService {
 
     private SessionService sessionService;
     private PieceRepository pieceRepository;
+    private Clock clock;
 
-    @Autowired
-    public PieceService(SessionService sessionService, PieceRepository pieceRepository) {
+
+    public PieceService(SessionService sessionService, PieceRepository pieceRepository, Clock clock) {
         this.sessionService = sessionService;
         this.pieceRepository = pieceRepository;
+        this.clock = clock;
     }
 
     @Transactional
     public AddItemResponse saveDto(PieceDto pieceDto) {
         Session session = sessionService.getSession(pieceDto.getSessionId());
-        session.setEndOfSession(LocalDateTime.now());
+        session.setEndOfSession(LocalDateTime.now(clock));
         try {
             Piece piece = new Piece();
             piece.setSession(session);
             piece.setQrCode(pieceDto.getQrCode());
-            piece.setProductionTime(LocalDateTime.now());
+            piece.setProductionTime(LocalDateTime.now(clock));
             pieceRepository.save(piece);
 
             return new AddItemResponse(true,"Piece saved successfully");

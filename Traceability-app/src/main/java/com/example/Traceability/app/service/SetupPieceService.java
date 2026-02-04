@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -20,11 +21,13 @@ public class SetupPieceService {
 
     private SetupPieceRepository setupPieceRepository;
     private SessionService sessionService;
+    private Clock clock;
 
-    @Autowired
-    public SetupPieceService(SetupPieceRepository setupPieceRepository, SessionService sessionService) {
+
+    public SetupPieceService(SetupPieceRepository setupPieceRepository, SessionService sessionService, Clock clock) {
         this.setupPieceRepository = setupPieceRepository;
         this.sessionService = sessionService;
+        this.clock = clock;
     }
 
 
@@ -41,13 +44,13 @@ public class SetupPieceService {
     @Transactional
     public AddItemResponse saveSetupDTO(BadPieceDto badPieceDto) {
         Session session = sessionService.getSession(badPieceDto.getSessionId());
-        session.setEndOfSession(LocalDateTime.now());
+        session.setEndOfSession(LocalDateTime.now(clock));
         ReasonForToolReplacement problem = ReasonForToolReplacement.valueOf(badPieceDto.getProblem());
         SetupPiece setupPiece = new SetupPiece();
 
         setupPiece.setSession(session);
         setupPiece.setQrCode(badPieceDto.getQrCode());
-        setupPiece.setProductionTime(LocalDateTime.now());
+        setupPiece.setProductionTime(LocalDateTime.now(clock));
         setupPiece.setComment(badPieceDto.getComment());
         setupPiece.setReason(problem);
         setupPieceRepository.save(setupPiece);
