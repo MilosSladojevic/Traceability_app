@@ -67,13 +67,7 @@ public class SessionService {
        sessionRepository.save(session);
     }
 
-//    public List<Session> getAllSessionsOfDay(){
-//        LocalDate today = LocalDate.now();
-//        LocalDateTime startOfDay = today.atStartOfDay();
-//        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
-//
-//        return sessionRepository.findByStartOfSessionLessThanEqualAndEndOfSessionIsNullOrEndOfSessionGreaterThanEqual(startOfDay,endOfDay);
-//    }
+
 
     @Transactional
     public List<SessionViewDto> getAllTodayForView(){
