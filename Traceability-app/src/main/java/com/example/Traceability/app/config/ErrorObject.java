@@ -1,4 +1,4 @@
-package com.example.Traceability.app.db.dto;
+package com.example.Traceability.app.config;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CheckQrCodeResponse {
-    private boolean inDataBase;
+public class ErrorObject {
+    private String text;
     private String message;
 }

@@ -1,4 +1,4 @@
-package com.example.Traceability.app.db.dto;
+package com.example.Traceability.app.config;
 
 import lombok.*;
 

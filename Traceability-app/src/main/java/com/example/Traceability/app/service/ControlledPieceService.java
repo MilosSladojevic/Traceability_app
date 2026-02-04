@@ -1,9 +1,8 @@
 package com.example.Traceability.app.service;
 
-import com.example.Traceability.app.db.dto.AddItemResponse;
+import com.example.Traceability.app.config.AddItemResponse;
 import com.example.Traceability.app.db.dto.PieceDto;
 import com.example.Traceability.app.db.entity.ControlledPiece;
-import com.example.Traceability.app.db.entity.Piece;
 import com.example.Traceability.app.db.entity.Session;
 import com.example.Traceability.app.repository.ControlledPieceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

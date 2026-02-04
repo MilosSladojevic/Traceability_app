@@ -1,8 +1,8 @@
 package com.example.Traceability.app.service;
 
-import com.example.Traceability.app.db.dto.AddItemResponse;
+import com.example.Traceability.app.config.AddItemResponse;
 import com.example.Traceability.app.db.dto.BadPieceDto;
-import com.example.Traceability.app.db.dto.CheckQrCodeResponse;
+import com.example.Traceability.app.config.CheckQrCodeResponse;
 import com.example.Traceability.app.db.dto.QrCodeCheckDto;
 import com.example.Traceability.app.db.entity.RfPiece;
 import com.example.Traceability.app.db.entity.Session;

@@ -1,5 +1,7 @@
 package com.example.Traceability.app.controller;
 
+import com.example.Traceability.app.config.AddItemResponse;
+import com.example.Traceability.app.config.CheckQrCodeResponse;
 import com.example.Traceability.app.db.dto.*;
 import com.example.Traceability.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
