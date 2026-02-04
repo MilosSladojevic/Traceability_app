@@ -81,51 +81,37 @@ public class SessionService {
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
 
-       return sessionRepository.findSessionsForDay(startOfDay,endOfDay).
-               stream().map(s-> new SessionViewDto(
-                       s.getStartOfSession(),
-                       s.getEndOfSession(),
-                       s.getNoOutbox(),
-                       s.getOkPiece().size(),
-                       s.getControlledPieces().size(),
-                       s.getSetupPieces().size(),
-                       s.getRusPieces().size(),
-                       s.getRfPieces().size(),
-                       s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
-               )).toList();
+       return mappingViveDto(sessionRepository.findSessionsForDay(startOfDay,endOfDay));
     }
 
     @Transactional
     public List<SessionViewDto> getAllForView(){
+        return mappingViveDto(sessionRepository.findTop100ByOrderByIdDesc());
 
-
-        return sessionRepository.findTop100ByOrderByIdDesc().
-                stream().map(s-> new SessionViewDto(
-                        s.getStartOfSession(),
-                        s.getEndOfSession(),
-                        s.getNoOutbox(),
-                        s.getOkPiece().size(),
-                        s.getControlledPieces().size(),
-                        s.getSetupPieces().size(),
-                        s.getRusPieces().size(),
-                        s.getRfPieces().size(),
-                        s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
-                )).toList();
     }
 
 
     public List<SessionViewDto> getAllWhitTicketNumber(String ticketId) {
-       return sessionRepository.findByNoOutbox(ticketId).stream().map(s-> new SessionViewDto(
-               s.getStartOfSession(),
-               s.getEndOfSession(),
-               s.getNoOutbox(),
-               s.getOkPiece().size(),
-               s.getControlledPieces().size(),
-               s.getSetupPieces().size(),
-               s.getRusPieces().size(),
-               s.getRfPieces().size(),
-               s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
-       )).toList();
+       return mappingViveDto(sessionRepository.findByNoOutbox(ticketId));
+//
+
 
     }
+
+    private List<SessionViewDto> mappingViveDto(List<Session> sessions){
+      return sessions.stream().map(s->new SessionViewDto(
+                s.getStartOfSession(),
+                s.getEndOfSession(),
+                s.getNoOutbox(),
+                s.getOkPiece().size(),
+                s.getControlledPieces().size(),
+                s.getSetupPieces().size(),
+                s.getRusPieces().size(),
+                s.getRfPieces().size(),
+                s.getEmployee().getFirstName()+" "+s.getEmployee().getLastName()
+       )).toList();
+
+
+    }
+
 }

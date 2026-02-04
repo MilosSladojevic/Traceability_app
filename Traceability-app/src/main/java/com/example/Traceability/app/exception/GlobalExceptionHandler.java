@@ -24,4 +24,19 @@ public class GlobalExceptionHandler {
                         .text("Some data is missing try again!").build());
         return modelAndView;
     }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleAllExceptions(Exception e) {
+
+        ModelAndView mv = new ModelAndView("myError");
+        mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        mv.addObject("errorObject",
+                ErrorObject.builder()
+                        .message(e.getMessage())
+                        .text("Došlo je do neočekivane greške. Molimo pokušajte ponovo.")
+                        .build());
+
+        return mv;
+    }
 }
