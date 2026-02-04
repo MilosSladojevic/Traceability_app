@@ -1,14 +1,16 @@
 package com.example.Traceability.app.controller;
 
+import com.example.Traceability.app.db.dto.DeleteEmployeeDto;
+import com.example.Traceability.app.db.dto.EmployeeDataForTable;
 import com.example.Traceability.app.db.dto.EmployeeDto;
 import com.example.Traceability.app.db.entity.Employee;
 
 import com.example.Traceability.app.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -23,9 +25,20 @@ public class EmployeeController {
     @PostMapping("/create")
     public EmployeeDto save(@RequestBody EmployeeDto employeeDto){
 
-        System.out.println(employeeDto.getFirstName());
-//        return employeeService.save(employee);
+
+         employeeService.createNew(employeeDto);
 
         return employeeDto;
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteEmployee(@RequestBody DeleteEmployeeDto deleteEmployeeDto){
+        employeeService.checkAndDeleteEmployee(deleteEmployeeDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-all")
+    private List<EmployeeDataForTable> getAllEmployees(){
+        return employeeService.getAllEmployees();
     }
 }

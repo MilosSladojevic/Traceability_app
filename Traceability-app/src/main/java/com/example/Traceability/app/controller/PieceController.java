@@ -35,32 +35,13 @@ public class PieceController {
     public AddItemResponse addPiece(@RequestBody PieceDto pieceDto){
 
        return pieceService.saveDto(pieceDto);
-//        Session session = sessionService.getSession(pieceDto.getSessionId());
-//        try {
-//            Piece piece = new Piece();
-//            piece.setSession(session);
-//            piece.setQrCode(pieceDto.getQrCode());
-//            piece.setProductionTime(LocalDateTime.now());
-//            pieceRepository.save(piece);
-//
-//            return new AddItemResponse(true,"Piece saved successfully");
-//        }catch (DataIntegrityViolationException e){
-//            return new AddItemResponse(false,"Piece with QR code: "+pieceDto.getQrCode()+" already exist!");
-//        }catch (Exception e){
-//            return new AddItemResponse(false,"Unexpected error");
-//        }
+
 
     }
 
     @PostMapping("/rus/qr-check")
     public CheckQrCodeResponse checkRusQrCode(@RequestBody QrCodeCheckDto qrCodeCheckDto){
         return rusPieceService.checkQrCode(qrCodeCheckDto);
-//        Optional<RusPiece> rus = rusRepository.findByQrCode(rusQrCheck.getQrCode());
-//        boolean exists = rus.isPresent();
-//        if (exists){
-//            return new CheckQrCodeResponse(true,"Already in Database");
-//        }
-//        return new CheckQrCodeResponse(false,"Free to use");
     }
 
     @PostMapping("/rus/save-data")
