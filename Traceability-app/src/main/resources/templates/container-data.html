@@ -33,11 +33,11 @@
     <form action="/measuring/box-info" method="post" th:action="@{/measuring/box-info}" th:object="${boxForm}" class="container input-box">
         <div class="div-input">
             <label for="inbox">Enter the inbox number</label>
-            <input id="inbox" name="inbox" type="text" minlength="9" maxlength="17">
+            <input id="inbox" name="inbox" type="text" minlength="9" maxlength="17" pattern="^\d{9}N\d{7}$">
         </div>
         <div class="div-input div-outbox">
             <label for="outbox">Enter the outbox number</label>
-            <input id="outbox" name="outbox" type="text" minlength="9" maxlength="17">
+            <input id="outbox" name="outbox" type="text" minlength="9" maxlength="17" pattern="^\d{9}N\d{7}$">
         </div>
 
         <button id="submitBtn" class="submit-button"  type="submit">Submit</button>
