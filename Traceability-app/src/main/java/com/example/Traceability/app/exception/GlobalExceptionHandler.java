@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
         mv.addObject("errorObject",
                 ErrorObject.builder()
                         .message(e.getMessage())
-                        .text("Došlo je do neočekivane greške. Molimo pokušajte ponovo.")
+                        .text("Oh no you encountered an error! Please try again!")
                         .build());
 
         return mv;
