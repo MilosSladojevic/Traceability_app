@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "rf_pieces")
 public class RfPiece {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -38,7 +38,7 @@ public class SetupControllerIT {
     @Test
     void shouldSaveSetupPiece() throws Exception {
 
-        // given
+
         Session session = new Session();
         session.setNoOutbox("23456");
         session.setNoInbox("23457");
@@ -53,7 +53,7 @@ public class SetupControllerIT {
 
         String jsonRequest = objectMapper.writeValueAsString(dto);
 
-        // when / then
+
         mockMvc.perform(post("/piece/setup/save-data")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest)

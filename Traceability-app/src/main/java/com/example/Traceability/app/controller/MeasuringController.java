@@ -27,8 +27,6 @@ public class MeasuringController {
 
     @GetMapping("/daily")
     public String showDailyTable(Model model){
-//        List<Session> sessions = sessionService.getAllSessionsOfDay();
-
         model.addAttribute("sessions",sessionService.getAllTodayForView());
         return "daily-table";
     }

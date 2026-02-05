@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PieceController {
 
     private PieceService pieceService;
-    private SessionService sessionService;
+
     private RusPieceService rusPieceService;
     private SetupPieceService setupService;
     private RfPieceService rfPieceService;
@@ -23,9 +23,9 @@ public class PieceController {
 
 
     @Autowired
-    public PieceController(PieceService pieceService, SessionService sessionService, RusPieceService rusPieceService, SetupPieceService setupService, RfPieceService rfPieceService, ControlledPieceService controlledPieceService) {
+    public PieceController(PieceService pieceService, RusPieceService rusPieceService, SetupPieceService setupService, RfPieceService rfPieceService, ControlledPieceService controlledPieceService) {
         this.pieceService = pieceService;
-        this.sessionService = sessionService;
+
         this.rusPieceService = rusPieceService;
         this.setupService = setupService;
         this.rfPieceService = rfPieceService;
@@ -51,19 +51,7 @@ public class PieceController {
     public AddItemResponse saveRusPiece(@RequestBody BadPieceDto badPieceDto){
 
         return rusPieceService.saveRusDTO(badPieceDto);
-//        Session session = sessionService.getSession(rusDto.getSessionId());
-//        RusProblems problem = RusProblems.valueOf(rusDto.getProblem());
-//        RusPiece rusPiece = new RusPiece();
-//
-//        rusPiece.setSession(session);
-//        rusPiece.setQrCode(rusDto.getQrCode());
-//        rusPiece.setProductionTime(LocalDateTime.now());
-//        rusPiece.setProblem(problem);
-//        rusPiece.setComment(rusDto.getComment());
-//
-//        rusRepository.save(rusPiece);
-//
-//        return new AddItemResponse(true,"Piece saved successfully");
+
     }
 
     @PostMapping("/setup/qr-check")

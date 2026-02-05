@@ -93,8 +93,6 @@ public class SessionService {
 
     public List<SessionViewDto> getAllWhitTicketNumber(String ticketId) {
        return mappingViveDto(sessionRepository.findByNoOutbox(ticketId));
-//
-
 
     }
 

@@ -9,12 +9,7 @@ import lombok.*;
 @Builder
 public class DeleteEmployeeDto {
 
-
     private String firstName;
-
-
     private String lastName;
-
-
     private Long employeeId;
 }

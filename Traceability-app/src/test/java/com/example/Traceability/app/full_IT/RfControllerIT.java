@@ -51,7 +51,7 @@ public class RfControllerIT {
 
         String jsonRequest = objectMapper.writeValueAsString(dto);
 
-        // when / then
+
         mockMvc.perform(post("/piece/rf/save-data")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest)

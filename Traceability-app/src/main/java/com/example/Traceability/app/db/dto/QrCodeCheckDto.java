@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class QrCodeCheckDto {
+
     private String qrCode;
 }

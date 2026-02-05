@@ -38,7 +38,7 @@ public class RusControllerIT {
     @Test
     void shouldSaveRusPiece() throws Exception {
 
-        // given
+
         Session session = new Session();
         session.setNoOutbox("23456");
         session.setNoInbox("23457");
@@ -53,7 +53,7 @@ public class RusControllerIT {
 
         String jsonRequest = objectMapper.writeValueAsString(dto);
 
-        // when / then
+
         mockMvc.perform(post("/piece/rus/save-data")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest)

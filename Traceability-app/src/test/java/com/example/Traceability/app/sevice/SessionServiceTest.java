@@ -72,7 +72,7 @@ public class SessionServiceTest {
         @SuppressWarnings("unchecked")
         List<SessionViewDto> result = (List<SessionViewDto>) method.invoke(sessionService, sessionList);
 
-        // then
+
         assertEquals(1, result.size());
         SessionViewDto dto = result.get(0);
         assertEquals(LocalDateTime.of(2026, 2, 4, 9, 0), dto.getStartOfSession());
