@@ -9,6 +9,7 @@ import com.example.Traceability.app.repository.ReferenceRepository;
 import com.example.Traceability.app.repository.SessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -112,5 +113,22 @@ public class SessionService {
 
 
     }
+
+    @Transactional
+    public void  deleteEmptySession(){
+        List<Session> emptySessions =sessionRepository.findEmptySessions();
+
+        if(!emptySessions.isEmpty()){
+            sessionRepository.deleteAll(emptySessions);
+            System.out.println(emptySessions.size()+" empty sessions deleted");
+        }
+    }
+
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void deleteEmptySessionsDaily() {
+        deleteEmptySession();
+    }
+
+
 
 }

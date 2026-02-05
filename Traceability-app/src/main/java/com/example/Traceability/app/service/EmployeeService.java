@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,9 +49,13 @@ public class EmployeeService {
     }
 
 
+    @Transactional
     public void createNew(EmployeeDto employeeDto) {
         Employee employee = modelMapper.map(employeeDto, Employee.class);
 
+        employeeRepository.save(employee);
+        // cuvam ga 2 puta da bi ubacio id u username
+        employee.setUsername(employee.getUsername()+"-"+employee.getId()+")");
         employeeRepository.save(employee);
     }
 

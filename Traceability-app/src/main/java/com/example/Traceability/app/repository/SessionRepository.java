@@ -17,7 +17,7 @@ public interface SessionRepository extends JpaRepository<Session,Long> {
     SELECT s FROM Session s
     WHERE s.startOfSession <= :endOfDay
     AND s.endOfSession >= :startOfDay
-""")
+    """)
     List<Session> findSessionsForDay(
             @Param("startOfDay") LocalDateTime startOfDay,
             @Param("endOfDay") LocalDateTime endOfDay
@@ -25,9 +25,16 @@ public interface SessionRepository extends JpaRepository<Session,Long> {
 
     List<Session> findTop100ByOrderByIdDesc();
 
-//    @Query("SELECT s FROM Session s WHERE noOfOutbox = :ticketId")
-//    List<Session> findByNoOfOutbox(@Param("ticketId") String ticketId);
+
 
     @Query("SELECT s FROM Session s WHERE s.noOutbox = :val")
     List<Session> findByNoOutbox(@Param("val") String val);
+
+    @Query("SELECT s FROM Session s " +
+            "WHERE s.okPiece IS EMPTY " +
+            "AND s.controlledPieces IS EMPTY " +
+            "AND s.setupPieces IS EMPTY " +
+            "AND s.rusPieces IS EMPTY " +
+            "AND s.rfPieces IS EMPTY")
+    List<Session> findEmptySessions();
 }

@@ -123,21 +123,37 @@ public class EmployeeServiceTest {
         Mockito.verify(employeeRepository, Mockito.never()).deleteById(Mockito.anyLong());
     }
 
+//
+
     @Test
-    void test_createNew(){
+    void test_createNew_shouldSaveEmployeeTwiceAndUpdateUsername() {
+        // given
         EmployeeDto dto = new EmployeeDto();
-        dto.setFirstName("Milos");
-        dto.setLastName("Sladojevic");
+        dto.setUsername("milos");
 
         Employee mappedEmployee = new Employee();
-        mappedEmployee.setFirstName("Milos");
-        mappedEmployee.setLastName("Sladojevic");
+        mappedEmployee.setUsername("milos");
 
         when(modelMapper.map(dto, Employee.class)).thenReturn(mappedEmployee);
 
+        // simuliramo da posle prvog save-a baza vrati ID
+        when(employeeRepository.save(mappedEmployee)).thenAnswer(invocation -> {
+            Employee e = invocation.getArgument(0);
+            if (e.getId() == null) {
+                e.setId(10L);   // baza dodeljuje ID
+            }
+            return e;
+        });
+
+
         employeeService.createNew(dto);
 
-        verify(employeeRepository,times(1)).save(mappedEmployee);
+
+        verify(modelMapper).map(dto, Employee.class);
+
+        verify(employeeRepository, times(2)).save(mappedEmployee);
+
+        assertEquals("milos-10)", mappedEmployee.getUsername());
     }
 
     @Test
